@@ -6,34 +6,35 @@
 
 # 📌 Visão Geral
 
-O **IAmém** é um sistema web inteligente desenvolvido para automatizar a criação das escalas da mídia da igreja.
+O **IAmém** é um sistema desktop inteligente desenvolvido para automatizar a criação das escalas da mídia da igreja.
 
-O projeto busca unir conceitos de:
+O projeto utiliza conceitos de:
 
 * Inteligência Artificial
 * Machine Learning
 * Automação de processos
 
-em uma solução prática capaz de gerar escalas automaticamente com base em regras, prioridades e disponibilidade dos integrantes.
+para gerar escalas automaticamente com base em:
 
-O sistema será desenvolvido de forma simples utilizando:
+* disponibilidade
+* prioridade
+* frequência de participação
+* área de atuação
 
-* Backend em Python com Flask
-* Frontend em React
-* Machine Learning com scikit-learn
+O sistema será desenvolvido totalmente em Python, utilizando interface gráfica simples para facilitar o uso e reduzir a complexidade do projeto.
 
 ---
 
 # 🎯 Objetivo do Projeto
 
-Automatizar o processo de criação das escalas da mídia da igreja, reduzindo:
+Automatizar a criação das escalas da mídia da igreja, reduzindo:
 
 * tempo gasto na organização manual
 * conflitos de escala
 * repetições excessivas
 * erros humanos
 
-Além disso, o sistema deverá auxiliar na distribuição equilibrada dos integrantes entre os cultos e eventos.
+O sistema deverá analisar os integrantes cadastrados e gerar automaticamente a melhor escala possível para cada culto ou evento.
 
 ---
 
@@ -44,7 +45,7 @@ O sistema utilizará:
 * Machine Learning supervisionado
 * Árvore de Decisão (Decision Tree)
 
-para auxiliar automaticamente na seleção dos integrantes mais adequados para cada função.
+para auxiliar automaticamente na escolha dos integrantes mais adequados para cada função.
 
 ---
 
@@ -52,30 +53,36 @@ para auxiliar automaticamente na seleção dos integrantes mais adequados para c
 
 ## Árvore de Decisão
 
-O modelo de Árvore de Decisão foi escolhido por:
+A Árvore de Decisão foi escolhida por:
 
 * simplicidade de implementação
 * fácil interpretação
 * boa adaptação ao problema
-* tomada de decisão baseada em regras
+* tomada de decisão baseada em critérios
 
-A árvore analisará critérios como:
+O modelo analisará:
 
 * disponibilidade
 * prioridade
-* frequência recente de participação
+* participação recente
+* quantidade de escalas seguidas
 * área de atuação
-* histórico de escalas
+
+para decidir automaticamente:
+
+* escalar ou não escalar determinado integrante.
 
 ---
 
-# 📌 Funcionamento da IA
+# ⚙️ Funcionamento da IA
 
-A IA analisará perguntas como:
+A IA tomará decisões com base em perguntas lógicas.
 
-```text id="n5y5yu"
+Exemplo:
+
+```text id="7llg67"
 Integrante está disponível?
- ├── Não → Não participa
+ ├── Não → Não escala
  └── Sim
        ↓
 Possui prioridade alta?
@@ -89,18 +96,31 @@ Participou recentemente?
 
 ---
 
-# ⚙️ Funcionalidades do Sistema
+# 🖥️ Tecnologias Utilizadas
 
-## 👤 Cadastro de Integrantes
+| Tecnologia    | Função                    |
+| ------------- | ------------------------- |
+| Python        | Desenvolvimento principal |
+| CustomTkinter | Interface gráfica         |
+| scikit-learn  | Machine Learning          |
+| SQLite        | Banco de dados local      |
 
-O administrador poderá cadastrar:
+---
+
+# 👤 Cadastro de Integrantes
+
+O sistema permitirá cadastrar integrantes contendo:
 
 * Nome
 * Área de atuação
 * Prioridade
 * Disponibilidade
+* Participação recente
+* Quantidade de escalas seguidas
 
-### Áreas disponíveis:
+---
+
+# 📌 Áreas Disponíveis
 
 * Som
 * Projeção
@@ -108,65 +128,57 @@ O administrador poderá cadastrar:
 
 ---
 
-## 📅 Cadastro de Cultos/Eventos
+# 📌 Exemplo de Cadastro
 
-O administrador poderá:
-
-* Criar cultos
-* Definir datas
-* Definir quantidade necessária por área
-
----
-
-## 🤖 Geração Automática de Escala
-
-O sistema irá:
-
-* analisar disponibilidade
-* verificar prioridades
-* evitar repetições excessivas
-* aplicar regras especiais
-* gerar escala automaticamente
+| Nome       | Área       | Prioridade | Disponível |
+| ---------- | ---------- | ---------- | ---------- |
+| Washington | Som        | Alta       | Sim        |
+| Nayara     | Fotografia | Máxima     | Sim        |
 
 ---
 
-## 📋 Visualização da Escala
+# 🤖 Geração Automática da Escala
 
-O administrador poderá:
+Ao clicar no botão “Gerar Escala”, o sistema irá:
 
-* visualizar escala gerada
-* editar manualmente caso necessário
-
----
-
-# 📌 Regras do Sistema
-
-## 🎚️ Som
-
-* Washington possui prioridade máxima
-* Caso indisponível:
-
-  * Wagner
-  * Heitor
+1. Buscar integrantes cadastrados
+2. Verificar disponibilidade
+3. Aplicar prioridades
+4. Analisar participação recente
+5. Aplicar a Árvore de Decisão
+6. Selecionar os melhores integrantes
+7. Gerar automaticamente a escala
 
 ---
 
-## 📽️ Projeção
+# 📋 Exemplo de Resultado
 
-Sistema realiza rodízio entre:
+```text id="z2sazj"
+SOM:
+- Washington
 
-* Liberanic
-* Lailla
-* Theo Henry
+PROJEÇÃO:
+- Lailla
 
-Evitando repetições consecutivas.
+FOTOGRAFIA:
+- Nayara
+```
 
 ---
 
-## 📸 Fotografia
+# 📌 Regras Inteligentes do Sistema
 
-* Nayara possui prioridade máxima
-* Rivail poderá entrar em eventos especiais ou revezamentos
+As regras do sistema serão representadas através dos atributos cadastrados dos integrantes.
+
+Exemplo:
+
+| Integrante | Prioridade |
+| ---------- | ---------- |
+| Washington | Alta       |
+| Nayara     | Máxima     |
+| Rivail     | Média      |
+
+A IA utilizará essas informações para aprender padrões de escolha.
 
 ---
 
@@ -178,11 +190,11 @@ O sistema deve permitir cadastrar integrantes.
 
 ## RF02
 
-O sistema deve permitir cadastrar cultos/eventos.
+O sistema deve permitir editar integrantes.
 
 ## RF03
 
-O sistema deve permitir definir disponibilidade.
+O sistema deve armazenar disponibilidade.
 
 ## RF04
 
@@ -190,11 +202,11 @@ O sistema deve gerar escalas automaticamente.
 
 ## RF05
 
-O sistema deve aplicar prioridades definidas.
+O sistema deve aplicar prioridades.
 
 ## RF06
 
-O sistema deve evitar repetições excessivas.
+O sistema deve evitar repetição excessiva de integrantes.
 
 ## RF07
 
@@ -206,88 +218,41 @@ O sistema deve exibir a escala gerada.
 
 ## RNF01
 
-O sistema deverá possuir interface simples e intuitiva.
+O sistema deverá funcionar localmente.
 
 ## RNF02
 
-O backend será desenvolvido em Python.
+O sistema deverá possuir interface simples e intuitiva.
 
 ## RNF03
 
-O frontend será desenvolvido em React.
+O sistema deverá utilizar banco de dados SQLite.
 
 ## RNF04
 
-O sistema utilizará banco de dados SQLite.
+O sistema deverá possuir baixo consumo de recursos.
 
 ## RNF05
 
-O sistema deverá possuir resposta rápida na geração das escalas.
+O sistema deverá gerar escalas rapidamente.
 
 ---
 
-# 🖥️ Tecnologias Utilizadas
+# 🧠 Estrutura de Dados da IA
 
-## Backend
+## Entradas (Features)
 
-* Python
-* Flask
-
-## Frontend
-
-* React
-
-## Machine Learning
-
-* scikit-learn
-
-## Banco de Dados
-
-* SQLite
+| Feature              | Descrição                          |
+| -------------------- | ---------------------------------- |
+| Disponível           | Integrante disponível              |
+| Prioridade           | Nível de prioridade                |
+| Participação recente | Participou recentemente            |
+| Escalas seguidas     | Quantidade de escalas consecutivas |
+| Área                 | Área de atuação                    |
 
 ---
 
-# 🗂️ Estrutura Básica do Sistema
-
-## Frontend
-
-Telas:
-
-* Login simples
-* Cadastro de integrantes
-* Cadastro de cultos
-* Geração de escala
-* Visualização da escala
-
----
-
-## Backend
-
-Rotas principais:
-
-```text id="ofefy2"
-/integrantes
-/cultos
-/gerar-escala
-```
-
----
-
-# 📊 Estrutura de Dados para IA
-
-## Entradas da Árvore de Decisão
-
-| Critério             | Descrição                       |
-| -------------------- | ------------------------------- |
-| Disponibilidade      | Se o integrante está disponível |
-| Prioridade           | Nível de prioridade             |
-| Participação recente | Se participou recentemente      |
-| Área                 | Área de atuação                 |
-| Frequência           | Quantidade de escalas seguidas  |
-
----
-
-## Saída do Modelo
+## Saída da IA
 
 | Resultado   |
 | ----------- |
@@ -296,15 +261,91 @@ Rotas principais:
 
 ---
 
+# 🔄 Fluxo BPMN — Usuário
+
+```text id="s4wr2u"
+[Início]
+   ↓
+Usuário abre sistema
+   ↓
+Cadastra integrantes
+   ↓
+Define disponibilidade
+   ↓
+Clica em "Gerar Escala"
+   ↓
+Sistema envia dados para IA
+   ↓
+IA analisa critérios
+   ↓
+Sistema gera escala automática
+   ↓
+Usuário visualiza resultado
+   ↓
+[Fim]
+```
+
+---
+
+# 🤖 Fluxo BPMN — Inteligência Artificial
+
+```text id="fbl8m5"
+[Início]
+   ↓
+Receber integrantes cadastrados
+   ↓
+Verificar disponibilidade
+   ↓
+Separar integrantes por área
+   ↓
+Analisar prioridades
+   ↓
+Verificar participação recente
+   ↓
+Aplicar Árvore de Decisão
+   ↓
+Selecionar melhores integrantes
+   ↓
+Gerar escala
+   ↓
+Exibir resultado
+   ↓
+[Fim]
+```
+
+---
+
+# 📈 Possíveis Melhorias Futuras
+
+* Histórico completo de escalas
+* Dashboard administrativo
+* Integração com WhatsApp
+* Exportação em PDF
+* Aprendizado contínuo da IA
+* Sistema multi-igrejas
+
+---
+
+# ✅ MVP — Versão Inicial
+
+A primeira versão do sistema terá:
+
+* Cadastro de integrantes
+* Interface gráfica simples
+* Banco SQLite
+* Geração automática de escalas
+* Árvore de decisão básica
+* Exibição da escala gerada
+
+---
+
 # 🎯 Diferencial do Projeto
 
-O diferencial do IAmém é utilizar Inteligência Artificial de forma simples e prática para resolver um problema real enfrentado pelas igrejas na organização das equipes de mídia.
+O diferencial do IAmém é utilizar Inteligência Artificial de forma prática e acessível para resolver um problema real enfrentado pelas equipes de mídia das igrejas.
 
-O sistema reduz:
+O sistema automatiza decisões de escala utilizando Machine Learning com Árvore de Decisão, tornando o processo:
 
-* tempo de organização
-* conflitos
-* escalas repetitivas
-* esforço manual
-
-automatizando decisões através de Machine Learning com Árvore de Decisão.
+* mais rápido
+* mais organizado
+* mais equilibrado
+* menos manual.
