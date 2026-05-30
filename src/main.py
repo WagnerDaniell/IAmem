@@ -1,6 +1,9 @@
 import customtkinter as ctk
+from models.database import init_db
 
 def main():
+    init_db()
+
     ctk.set_appearance_mode("system")
     ctk.set_default_color_theme("blue")
 
