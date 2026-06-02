@@ -1,5 +1,6 @@
 import sqlite3 
 import os
+from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "..", "..", "data", "iamem.db"))
@@ -206,21 +207,25 @@ def obter_dados_treino():
     conn = url_connection()
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT disponivel_dia, prioridade, participacao_recente,
-               escalas_seguidas, area_atuacao, avaliacao
+        SELECT data_escala, integrante_id, disponivel_dia, prioridade,
+               participacao_recente, escalas_seguidas, area_atuacao, avaliacao
         FROM feedback_escala
         WHERE avaliacao IS NOT NULL
     ''')
     dados = cursor.fetchall()
     conn.close()
+
+    dias_pt = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"]
     return [
         {
-            "disponivel_dia": d[0],
-            "prioridade": d[1],
-            "participacao_recente": d[2],
-            "escalas_seguidas": d[3],
-            "area": d[4],
-            "target": d[5]
+            "dia_semana": dias_pt[datetime.fromisoformat(d[0]).weekday()] if d[0] else None,
+            "integrante_id": d[1],
+            "disponivel_dia": d[2],
+            "prioridade": d[3],
+            "participacao_recente": d[4],
+            "escalas_seguidas": d[5],
+            "area": d[6],
+            "target": d[7]
         }
         for d in dados
     ]

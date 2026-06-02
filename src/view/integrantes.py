@@ -1,4 +1,3 @@
-# src/view/integrantes_view.py
 import customtkinter as ctk
 from tkinter import messagebox
 from src.context.database import (

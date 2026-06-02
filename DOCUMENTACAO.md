@@ -1,48 +1,54 @@
-# IAmém - Documentação Técnica e Acadêmica
+# IAmem - Documentacao Tecnica e Academica
 
-## 1. Introdução
+## 1. Introducao
 
-O **IAmém** é um sistema desktop desenvolvido em Python para automatizar a geração de escalas da mídia da igreja. O projeto foi pensado para reduzir o trabalho manual de organização e para distribuir os integrantes de forma mais equilibrada ao longo da semana.
+O **IAmem** e um sistema desktop desenvolvido em Python para automatizar a geracao de escalas da midia da igreja. O projeto foi pensado para reduzir o trabalho manual de organizacao e para distribuir os integrantes de forma mais inteligente ao longo da semana.
 
-A solução combina dois elementos principais:
+A solucao utiliza **Machine Learning supervisionado** como mecanismo principal de decisao. O codigo mantem apenas filtros minimos de viabilidade, como:
 
-- **Machine Learning**, para estimar a melhor escolha com base em dados históricos;
-- **regras de negócio**, para respeitar limitações práticas como descanso, repetição excessiva e exceções específicas.
+- area correta;
+- disponibilidade no dia.
 
-O sistema não se comporta como uma simples ordenação por prioridade. Em vez disso, ele tenta equilibrar:
+Todo o restante da escolha final e responsabilidade da arvore de decisao.
+
+O sistema nao se comporta como uma simples ordenacao por prioridade. Em vez disso, ele aprende padroes a partir de:
 
 - disponibilidade por dia;
 - prioridade do integrante;
-- participação recente;
+- participacao recente;
 - escalas seguidas;
-- área de atuação;
-- feedback humano registrado após a geração.
+- area de atuacao;
+- dia da semana;
+- identificador do integrante;
+- feedback humano registrado apos a geracao.
+
+Esse fluxo transforma o sistema em uma solucao orientada principalmente por ML, com validacoes minimas antes da previsao.
 
 ---
 
 ## 2. Objetivo
 
-O objetivo do projeto é automatizar o processo de criação de escalas, mantendo a decisão:
+O objetivo do projeto e automatizar o processo de criacao de escalas, mantendo a decisao:
 
-- mais rápida;
+- mais rapida;
 - mais organizada;
-- mais justa;
-- mais próxima da realidade da equipe.
+- mais inteligente;
+- mais proxima da realidade da equipe.
 
-Além de gerar a escala, o sistema também aprende com o retorno humano, permitindo um ciclo contínuo de melhoria.
+Alm de gerar a escala, o sistema tambem aprende com o retorno humano, permitindo um ciclo continuo de melhoria.
 
 ---
 
 ## 3. Tecnologias Utilizadas
 
-| Tecnologia | Função |
+| Tecnologia | Funcao |
 | --- | --- |
 | Python | Linguagem principal do sistema |
-| CustomTkinter | Interface gráfica |
-| SQLite | Persistência local dos dados |
-| Pandas | Manipulação dos dados de treino |
+| CustomTkinter | Interface grafica |
+| SQLite | Persistencia local dos dados |
+| Pandas | Manipulacao dos dados de treino |
 | Scikit-learn | Modelo de Machine Learning |
-| Matplotlib | Visualização da árvore de decisão |
+| Matplotlib | Visualizacao da arvore de decisao |
 
 ---
 
@@ -52,12 +58,12 @@ Além de gerar a escala, o sistema também aprende com o retorno humano, permiti
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| [`main.py`](./main.py) | Ponto de entrada da aplicação |
-| [`src/context/database.py`](./src/context/database.py) | Inicialização do banco e operações CRUD |
-| [`src/services/gerador_escala.py`](./src/services/gerador_escala.py) | Treino do modelo e geração da escala |
+| [`main.py`](./main.py) | Ponto de entrada da aplicacao |
+| [`src/context/database.py`](./src/context/database.py) | Inicializacao do banco e operacoes CRUD |
+| [`src/services/gerador_escala.py`](./src/services/gerador_escala.py) | Treino do modelo e geracao da escala |
 | [`src/view/interface.py`](./src/view/interface.py) | Janela principal |
-| [`src/view/integrantes.py`](./src/view/integrantes.py) | Cadastro e edição de integrantes |
-| [`src/view/escalas.py`](./src/view/escalas.py) | Tela de geração e feedback das escalas |
+| [`src/view/integrantes.py`](./src/view/integrantes.py) | Cadastro e edicao de integrantes |
+| [`src/view/escalas.py`](./src/view/escalas.py) | Tela de geracao e feedback das escalas |
 
 ### Estrutura de pastas
 
@@ -82,47 +88,46 @@ IAmem/
 
 ---
 
-## 5. Visão Geral do Sistema
+## 5. Visao Geral do Sistema
 
-O sistema segue um ciclo simples e contínuo:
+O sistema segue um ciclo simples e continuo:
 
-1. o usuário cadastra os integrantes;
-2. o sistema armazena disponibilidade, prioridade e histórico;
-3. a escala é gerada automaticamente;
-4. o resultado é exibido na interface;
-5. o usuário avalia os nomes sugeridos;
-6. o feedback é salvo no banco;
-7. o modelo é re-treinado com base nas avaliações válidas.
+1. o usuario cadastra os integrantes;
+2. o sistema armazena disponibilidade, prioridade e historico;
+3. a escala e gerada automaticamente;
+4. o resultado e exibido na interface;
+5. o usuario avalia os nomes sugeridos;
+6. o feedback e salvo no banco;
+7. o modelo e re-treinado com base nas avaliacoes validas.
 
-Esse fluxo transforma o sistema em uma solução **híbrida**, pois ele não depende apenas da árvore de decisão, nem apenas de regras fixas.
+Esse fluxo faz com que o sistema aprenda ao longo do tempo sem depender de regras manuais para decidir o resultado final.
 
 ---
 
-## 6. Fluxo de Geração da Escala
+## 6. Fluxo de Geracao da Escala
 
-Esta seção descreve o processo completo, em ordem exata, desde o clique do usuário até a exibição da escala.
+Esta secao descreve o processo completo, em ordem exata, desde o clique do usuario ate a exibicao da escala.
 
 ### 6.1 Fluxo geral
 
 | Etapa | O que acontece |
 | --- | --- |
-| 1 | O usuário clica em **Gerar Escala da Semana** |
+| 1 | O usuario clica em **Gerar Escala da Semana** |
 | 2 | A interface chama `gerar_escala_semana()` |
 | 3 | O sistema garante que o modelo esteja carregado |
-| 4 | Os integrantes são lidos do banco SQLite |
-| 5 | O sistema calcula as próximas datas de Domingo, Quarta e Sexta |
-| 6 | Para cada dia, o sistema percorre as áreas Som, Projecao e Fotografia |
-| 7 | Os candidatos são filtrados por área e disponibilidade |
-| 8 | Cada candidato é convertido em features numéricas/categóricas |
-| 9 | A árvore de decisão estima a probabilidade de escolha |
-| 10 | O score final recebe ajustes de regras de negócio |
-| 11 | O integrante com maior pontuação é selecionado |
-| 12 | A escala é salva no banco |
-| 13 | O histórico é atualizado |
-| 14 | O feedback técnico de contexto é registrado |
-| 15 | O resultado é exibido na interface |
+| 4 | Os integrantes sao lidos do banco SQLite |
+| 5 | O sistema calcula as proximas datas de Domingo, Quarta e Sexta |
+| 6 | Para cada dia, o sistema percorre as areas Som, Projecao e Fotografia |
+| 7 | Os candidatos sao filtrados por area e disponibilidade |
+| 8 | Cada candidato e convertido em features numericas/categoricas |
+| 9 | A arvore de decisao estima a probabilidade de escolha |
+| 10 | O modelo escolhe o candidato com maior probabilidade entre os viaveis |
+| 11 | A escala e salva no banco |
+| 12 | O historico e atualizado |
+| 13 | O feedback tecnico de contexto e registrado |
+| 14 | O resultado e exibido na interface |
 
-### 6.2 Pseudo-fluxo técnico
+### 6.2 Pseudo-fluxo tecnico
 
 ```text
 Clique em "Gerar Escala"
@@ -133,15 +138,13 @@ Calcular datas da semana
     ↓
 Para cada dia
     ↓
-    Para cada área
+    Para cada area
         ↓
-        Filtrar disponíveis
+        Filtrar disponiveis
         ↓
         Montar features
         ↓
-        Passar pela árvore de decisão
-        ↓
-        Aplicar regras de negócio
+        Passar pela arvore de decisao
         ↓
         Selecionar candidato final
         ↓
@@ -149,20 +152,20 @@ Para cada dia
     ↓
 Salvar escala semanal
     ↓
-Atualizar histórico e feedback
+Atualizar historico e feedback
     ↓
 Exibir resultado
 ```
 
 ---
 
-## 7. Quando o Feedback é Usado
+## 7. Quando o Feedback e Usado
 
-Este ponto é central para entender o comportamento do sistema.
+Este ponto e central para entender o comportamento do sistema.
 
-### 7.1 Feedback durante a geração
+### 7.1 Feedback durante a geracao
 
-Quando a escala é gerada, o sistema grava uma linha em `feedback_escala` para cada candidato considerado.
+Quando a escala e gerada, o sistema grava uma linha em `feedback_escala` para cada candidato considerado.
 
 Nessa etapa:
 
@@ -170,11 +173,11 @@ Nessa etapa:
 - os demais candidatos recebem `0`;
 - `avaliacao` permanece `NULL`.
 
-Isso significa que o sistema está registrando **contexto de geração**, mas ainda não está aprendendo supervisionadamente com esse dado.
+Isso significa que o sistema esta registrando **contexto de geracao**, mas ainda nao esta aprendendo supervisionadamente com esse dado.
 
-### 7.2 Feedback manual do usuário
+### 7.2 Feedback manual do usuario
 
-Depois da geração, o usuário pode avaliar a escala com:
+Depois da geracao, o usuario pode avaliar a escala com:
 
 - 👍 para uma boa escolha;
 - 👎 para uma escolha ruim.
@@ -182,19 +185,19 @@ Depois da geração, o usuário pode avaliar a escala com:
 Quando isso acontece:
 
 - o campo `avaliacao` recebe um valor;
-- esse valor passa a ser o rótulo de aprendizado do modelo.
+- esse valor passa a ser o rotulo de aprendizado do modelo.
 
 ### 7.3 Quando o modelo aprende de fato
 
-O modelo só considera os registros de `feedback_escala` que tenham:
+O modelo so considera os registros de `feedback_escala` que tenham:
 
 - `avaliacao IS NOT NULL`
 
-Em termos práticos:
+Em termos praticos:
 
-- gerar a escala não treina o modelo sozinho;
+- gerar a escala nao treina o modelo sozinho;
 - o aprendizado acontece quando o humano avalia os resultados;
-- o próximo treino usa apenas avaliações válidas.
+- o proximo treino usa apenas avaliacoes validas.
 
 ### 7.4 Ciclo de aprendizado
 
@@ -203,13 +206,13 @@ Gerar escala
     ↓
 Salvar contexto dos candidatos
     ↓
-Usuário avalia
+Usuario avalia
     ↓
 Gravar avaliacao no banco
     ↓
 Re-treinar o modelo
     ↓
-Usar aprendizado na próxima geração
+Usar aprendizado na proxima geracao
 ```
 
 ---
@@ -218,87 +221,75 @@ Usar aprendizado na próxima geração
 
 ### 8.1 Tipo de modelo
 
-O modelo utilizado é uma **Árvore de Decisão** (`DecisionTreeClassifier`), da biblioteca `scikit-learn`.
+O modelo utilizado e uma **Arvore de Decisao** (`DecisionTreeClassifier`), da biblioteca `scikit-learn`.
 
 ### 8.2 Justificativa da escolha
 
-A árvore de decisão foi escolhida porque:
+A arvore de decisao foi escolhida porque:
 
-- é simples de interpretar;
-- funciona bem com regras condicionais;
-- permite visualizar a lógica de decisão;
+- e simples de interpretar;
+- funciona bem com relacoes condicionais;
+- permite visualizar a logica de decisao;
 - se adapta bem a problemas com atributos mistos;
-- é útil quando queremos explicar por que uma escolha foi feita.
+- e util quando queremos explicar por que uma escolha foi feita.
 
 ### 8.3 Entradas do modelo
 
-| Feature | Descrição |
+| Feature | Descricao |
 | --- | --- |
-| `disponivel_dia` | Indica se o integrante está disponível naquele dia |
-| `prioridade` | Nível de prioridade cadastrado |
+| `disponivel_dia` | Indica se o integrante esta disponivel naquele dia |
+| `prioridade` | Nivel de prioridade cadastrado |
 | `participacao_recente` | Indica se o integrante participou recentemente |
 | `escalas_seguidas` | Quantidade de escalas consecutivas |
-| `area` | Área de atuação do integrante |
+| `area` | Area de atuacao do integrante |
+| `dia_semana` | Dia da escala avaliado |
+| `integrante_id` | Identificador do integrante |
 
-### 8.4 Saída do modelo
+### 8.4 Saida do modelo
 
-| Saída | Significado |
+| Saida | Significado |
 | --- | --- |
 | `1` | Escalar |
-| `0` | Não escalar |
+| `0` | Nao escalar |
 
 ### 8.5 Como o treino funciona
 
 O treino usa:
 
-- dados reais já avaliados;
-- um dataset mínimo de fallback quando ainda existem poucos dados.
+- dados reais ja avaliados;
+- um dataset minimo de fallback quando ainda existem poucos dados.
 
-Isso evita falhas na primeira execução e garante que o modelo tenha condições de operar mesmo em fase inicial.
+Isso evita falhas na primeira execucao e garante que o modelo tenha condicoes de operar mesmo em fase inicial.
 
 ---
 
-## 9. Lógica de Seleção
+## 9. Logica de Selecao
 
-O sistema não usa apenas a árvore de decisão de forma isolada. Ele calcula uma pontuação final combinando o resultado do modelo com regras de negócio.
+O sistema usa a arvore de decisao de forma direta sobre os candidatos viaveis. Nao ha bonus, penalidades ou excecoes manuais na decisao final.
 
-### 9.1 Elementos que compõem o score
+### 9.1 Elementos que compoem a decisao
 
 | Componente | Efeito |
 | --- | --- |
-| Probabilidade da árvore | Mede a tendência de escolha |
-| Bônus de prioridade | Favorece prioridades mais altas |
-| Penalidade por participação recente | Reduz repetição excessiva |
-| Penalidade por escalas seguidas | Reduz sobrecarga |
-| Penalidade por repetição histórica | Evita repetir o mesmo nome com muita frequência |
-| Regra fixa | Pode sobrescrever a pontuação em casos específicos |
+| Probabilidade da arvore | Mede a tendencia de escolha |
+| Filtros minimos | Eliminam candidatos fora da area ou indisponiveis |
 
-### 9.2 Regra especial do Washington
+### 9.2 Papel dos filtros minimos
 
-Em `Som`, o sistema possui uma exceção explícita para **Washington**.
+Os filtros minimos nao decidem quem ganha a vaga. Eles apenas garantem que a arvore receba candidatos que fazem sentido para aquela area e para aquele dia.
 
-Na prática:
-
-- se ele estiver disponível;
-- e estiver na área correta;
-- ele é priorizado.
-
-Essa regra foi tratada como exceção de negócio, e não como comportamento geral do modelo.
-
-### 9.3 Equilíbrio entre ML e regras
+### 9.3 Papel do modelo
 
 | Parte | Responsabilidade |
 | --- | --- |
-| ML | Estimar a melhor tendência de escolha |
-| Regras | Garantir equilíbrio e comportamento esperado |
-
-Isso é importante porque o sistema é híbrido: o modelo prevê, mas as regras impedem decisões ruins ou repetitivas.
+| ML | Escolher o candidato com maior probabilidade aprendida |
+| Filtros minimos | Garantir viabilidade operacional |
 
 ---
 
 ## 10. Banco de Dados
 
-O banco é local e fica em:
+O banco e local e fica em:
 
 ```text
 data/iamem.db
@@ -310,11 +301,11 @@ data/iamem.db
 
 Armazena os dados base de cada integrante.
 
-| Campo | Função |
+| Campo | Funcao |
 | --- | --- |
 | `id` | Identificador |
 | `nome` | Nome do integrante |
-| `area` | Área de atuação |
+| `area` | Area de atuacao |
 | `prioridade` | Prioridade cadastrada |
 | `disponivel_quarta` | Disponibilidade na quarta-feira |
 | `disponivel_sexta` | Disponibilidade na sexta-feira |
@@ -326,34 +317,36 @@ Armazena os dados base de cada integrante.
 
 Armazena a escala gerada por dia.
 
-| Campo | Função |
+| Campo | Funcao |
 | --- | --- |
 | `id` | Identificador |
 | `data_escala` | Data da escala |
 | `som` | Nome escalado para som |
-| `projecao` | Nome escalado para projeção |
+| `projecao` | Nome escalado para projecao |
 | `fotografia` | Nome escalado para fotografia |
 
 #### `feedback_escala`
 
-Armazena o histórico usado para aprendizado supervisionado.
+Armazena o historico usado para aprendizado supervisionado.
 
-| Campo | Função |
+| Campo | Funcao |
 | --- | --- |
-| `data_escala` | Data relacionada à decisão |
-| `area` | Área da decisão |
+| `data_escala` | Data relacionada a decisao |
+| `area` | Area da decisao |
 | `integrante_id` | Integrante avaliado |
 | `foi_escalado` | Indica se foi o escolhido |
 | `disponivel_dia` | Disponibilidade naquele dia |
-| `prioridade` | Prioridade no momento da decisão |
-| `participacao_recente` | Histórico recente |
-| `escalas_seguidas` | Sequência de escalas |
-| `area_atuacao` | Área original do integrante |
-| `avaliacao` | Rótulo supervisionado definido pelo usuário |
+| `prioridade` | Prioridade no momento da decisao |
+| `participacao_recente` | Historico recente |
+| `escalas_seguidas` | Sequencia de escalas |
+| `area_atuacao` | Area original do integrante |
+| `avaliacao` | Rotulo supervisionado definido pelo usuario |
+
+Esses dois campos extras, `dia_semana` e `integrante_id`, sao importantes porque permitem que o feedback tenha efeito mais especifico sobre a combinacao pessoa + contexto.
 
 ---
 
-## 11. Dados de Demonstração
+## 11. Dados de Demonstracao
 
 O projeto pode carregar um seed inicial caso a tabela `integrantes` esteja vazia.
 
@@ -367,16 +360,17 @@ Esses dados existem para:
 
 - facilitar testes iniciais;
 - permitir visualizar a escala logo no primeiro uso;
-- evitar uma aplicação vazia durante demonstrações.
+- evitar uma aplicacao vazia durante demonstracoes;
+- fornecer exemplos supervisionados iniciais para o modelo.
 
 ### Regra de carregamento
 
-O seed é executado apenas se:
+O seed e executado apenas se:
 
 - a tabela `integrantes` existir;
 - e estiver vazia.
 
-Se já houver dados reais, o seed não é reaplicado.
+Se ja houver dados reais, o seed nao e reaplicado.
 
 ---
 
@@ -384,39 +378,38 @@ Se já houver dados reais, o seed não é reaplicado.
 
 ### 12.1 Fluxo operacional
 
-| Ação | Resultado |
+| Acao | Resultado |
 | --- | --- |
-| Gerar escala | Registra contexto técnico no banco |
-| Avaliar com 👍 ou 👎 | Define o rótulo supervisionado |
-| Clicar em re-treinar | Recalcula o modelo com dados avaliados |
+| Gerar escala | Registra contexto tecnico no banco |
+| Avaliar com 👍 ou 👎 | Define o rotulo supervisionado |
+| Clicar em 👍 ou 👎 | Atualiza o feedback usado no proximo treino |
 
 ### 12.2 Quando o modelo usa os dados de feedback
 
 O uso acontece somente quando:
 
 - o registro possui `avaliacao`;
-- o sistema precisa treinar novamente;
-- o usuário aciona o re-treino manual.
+- o sistema faz o re-treino a partir do feedback registrado.
 
-### 12.3 Consequência prática
+### 12.3 Consequencia pratica
 
 O sistema melhora com o tempo, mas apenas se houver:
 
-- avaliações reais;
-- histórico suficiente;
-- consistência nos dados cadastrados.
+- avaliacoes reais;
+- historico suficiente;
+- consistencia nos dados cadastrados.
 
 ---
 
-## 13. Limitações e Observações
+## 13. Limitacoes e Observacoes
 
-Mesmo sendo funcional, o sistema possui limitações naturais:
+Mesmo sendo funcional, o sistema possui limitacoes naturais:
 
 - depende da qualidade dos dados cadastrados;
 - depende do feedback humano;
-- com pouco histórico, o aprendizado é limitado;
-- a árvore de decisão não substitui completamente regras humanas;
-- o resultado final é híbrido, não puramente estatístico.
+- com pouco historico, o aprendizado e limitado;
+- a arvore de decisao depende da qualidade do treino;
+- com poucos dados reais, o sistema ainda usa fallback sintetico.
 
 ---
 
@@ -424,9 +417,9 @@ Mesmo sendo funcional, o sistema possui limitações naturais:
 
 ### Requisitos
 
-Instalar as dependências do `requirements.txt`.
+Instalar as dependencias do `requirements.txt`.
 
-### Execução
+### Execucao
 
 ```bash
 python main.py
@@ -434,42 +427,42 @@ python main.py
 
 Ao iniciar:
 
-- o banco é inicializado;
-- o seed é carregado, se necessário;
-- a interface principal é aberta.
+- o banco e inicializado;
+- o seed e carregado, se necessario;
+- a interface principal e aberta.
 
 ---
 
-## 15. Síntese Acadêmica
+## 15. Sintese Academica
 
-Do ponto de vista acadêmico, o IAmém pode ser descrito como um sistema de apoio à decisão baseado em Machine Learning supervisionado, com pós-processamento por regras de negócio.
+Do ponto de vista academico, o IAmem pode ser descrito como um sistema de apoio a decisao baseado em Machine Learning supervisionado, com filtros minimos de viabilidade.
 
 Essa abordagem permite:
 
-- automatizar a geração de escalas;
+- automatizar a geracao de escalas;
 - incorporar conhecimento humano;
-- registrar histórico;
-- aprender com avaliações;
-- manter a distribuição de integrantes mais equilibrada.
+- registrar historico;
+- aprender com avaliacoes;
+- manter a distribuicao de integrantes mais coerente com os dados.
 
 ---
 
-## 16. Resumo Técnico do Pipeline
+## 16. Resumo Tecnico do Pipeline
 
 ```text
 Cadastro de integrantes
     ↓
-Persistência em SQLite
+Persistencia em SQLite
     ↓
-Treino da árvore com feedback avaliado
+Treino da arvore com feedback avaliado
     ↓
-Geração da escala semanal
+Geracao da escala semanal
     ↓
-Filtragem por disponibilidade e área
+Filtragem por disponibilidade e area
     ↓
-Score do modelo + regras de negócio
+Predicao do modelo
     ↓
-Seleção do integrante
+Selecao do integrante
     ↓
 Salvamento da escala
     ↓
@@ -480,15 +473,13 @@ Novo treino
 
 ---
 
-## 17. Conclusão
+## 17. Conclusao
 
-O IAmém foi projetado para unir automação, aprendizado supervisionado e regras de negócio em um único fluxo de trabalho. Na prática, isso produz uma solução mais explicável do que um modelo puramente estatístico e mais inteligente do que uma regra fixa manual.
+O IAmem foi projetado para unir automacao e aprendizado supervisionado em um unico fluxo de trabalho. Na pratica, isso produz uma solucao mais explicavel do que um modelo puramente estatistico e mais inteligente do que uma regra fixa manual.
 
-O resultado é um sistema que:
+O resultado e um sistema que:
 
 - gera escalas automaticamente;
-- aprende com avaliações;
-- evita repetição excessiva;
-- respeita exceções reais da equipe;
-- mantém a lógica clara para manutenção e apresentação.
-
+- aprende com avaliacoes;
+- respeita criterios operacionais minimos;
+- mantem a logica clara para manutencao e apresentacao.

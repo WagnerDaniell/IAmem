@@ -1,5 +1,5 @@
--- Dados iniciais para o IAmém
--- Este script deve ser executado apenas quando a tabela integrantes estiver vazia.
+-- Seed inicial do IAmem
+-- Executado apenas quando a tabela integrantes estiver vazia.
 
 INSERT INTO integrantes (
     nome,
@@ -11,12 +11,70 @@ INSERT INTO integrantes (
     participacao_recente,
     escalas_seguidas
 ) VALUES
-('Washington', 'Som', 'Alta', 1, 1, 1, 0, 0),
-('Nayara', 'Fotografia', 'Maxima', 1, 1, 1, 0, 0),
-('Lailla', 'Projecao', 'Alta', 1, 1, 1, 0, 0),
+('Washington', 'Som', 'Alta', 0, 1, 1, 0, 0),
+('Nayara', 'Fotografia', 'Maxima', 1, 0, 1, 0, 0),
+('Lailla', 'Projecao', 'Alta', 0, 0, 1, 0, 0),
 ('Rivail', 'Som', 'Media', 1, 0, 1, 0, 0),
 ('Gabriel', 'Projecao', 'Media', 1, 1, 0, 0, 0),
 ('Camila', 'Fotografia', 'Alta', 0, 1, 1, 0, 0),
 ('Diego', 'Som', 'Baixa', 1, 1, 1, 0, 0),
 ('Bianca', 'Projecao', 'Baixa', 1, 0, 1, 0, 0),
-('Mateus', 'Fotografia', 'Media', 1, 1, 0, 0, 0);
+('Mateus', 'Fotografia', 'Media', 1, 1, 0, 0, 0),
+('Andre', 'Som', 'Maxima', 1, 1, 1, 0, 0),
+('Julia', 'Projecao', 'Alta', 1, 1, 1, 0, 0),
+('Pedro', 'Fotografia', 'Baixa', 1, 1, 1, 0, 0);
+
+INSERT INTO feedback_escala (
+    data_escala,
+    area,
+    integrante_id,
+    foi_escalado,
+    disponivel_dia,
+    prioridade,
+    participacao_recente,
+    escalas_seguidas,
+    area_atuacao,
+    avaliacao
+) VALUES
+('2026-05-01', 'Som', 1, 1, 1, 'Alta', 0, 0, 'Som', 1),
+('2026-05-01', 'Som', 7, 0, 1, 'Baixa', 1, 2, 'Som', 0),
+('2026-05-01', 'Projecao', 3, 1, 1, 'Alta', 0, 0, 'Projecao', 1),
+('2026-05-01', 'Projecao', 8, 0, 1, 'Baixa', 1, 2, 'Projecao', 0),
+('2026-05-01', 'Fotografia', 2, 1, 1, 'Maxima', 0, 0, 'Fotografia', 1),
+('2026-05-01', 'Fotografia', 12, 0, 1, 'Baixa', 1, 1, 'Fotografia', 0),
+('2026-05-08', 'Som', 4, 1, 1, 'Media', 0, 0, 'Som', 1),
+('2026-05-08', 'Som', 7, 0, 1, 'Baixa', 1, 3, 'Som', 0),
+('2026-05-08', 'Projecao', 11, 1, 1, 'Alta', 0, 0, 'Projecao', 1),
+('2026-05-08', 'Projecao', 5, 0, 1, 'Media', 1, 2, 'Projecao', 0),
+('2026-05-08', 'Fotografia', 6, 1, 1, 'Alta', 0, 0, 'Fotografia', 1),
+('2026-05-08', 'Fotografia', 9, 0, 1, 'Media', 1, 1, 'Fotografia', 0),
+('2026-05-15', 'Som', 10, 1, 1, 'Maxima', 0, 0, 'Som', 1),
+('2026-05-15', 'Som', 1, 0, 1, 'Alta', 1, 1, 'Som', 0),
+('2026-05-15', 'Projecao', 3, 1, 1, 'Alta', 0, 1, 'Projecao', 1),
+('2026-05-15', 'Projecao', 8, 0, 1, 'Baixa', 1, 3, 'Projecao', 0),
+('2026-05-15', 'Fotografia', 2, 1, 1, 'Maxima', 0, 1, 'Fotografia', 1),
+('2026-05-15', 'Fotografia', 12, 0, 1, 'Baixa', 1, 2, 'Fotografia', 0),
+('2026-05-22', 'Som', 1, 1, 1, 'Alta', 0, 0, 'Som', 1),
+('2026-05-22', 'Som', 7, 0, 1, 'Baixa', 1, 4, 'Som', 0),
+('2026-05-22', 'Projecao', 11, 1, 1, 'Alta', 0, 0, 'Projecao', 1),
+('2026-05-22', 'Projecao', 5, 0, 1, 'Media', 1, 3, 'Projecao', 0),
+('2026-05-22', 'Fotografia', 2, 1, 1, 'Maxima', 0, 0, 'Fotografia', 1),
+('2026-05-22', 'Fotografia', 9, 0, 1, 'Media', 1, 2, 'Fotografia', 0),
+('2026-05-29', 'Som', 4, 1, 1, 'Media', 0, 0, 'Som', 1),
+('2026-05-29', 'Som', 7, 0, 1, 'Baixa', 1, 5, 'Som', 0),
+('2026-05-29', 'Projecao', 3, 1, 1, 'Alta', 0, 0, 'Projecao', 1),
+('2026-05-29', 'Projecao', 8, 0, 1, 'Baixa', 1, 4, 'Projecao', 0),
+('2026-05-29', 'Fotografia', 6, 1, 1, 'Alta', 0, 0, 'Fotografia', 1),
+('2026-05-29', 'Fotografia', 12, 0, 1, 'Baixa', 1, 3, 'Fotografia', 0),
+('2026-06-05', 'Som', 10, 1, 1, 'Maxima', 0, 0, 'Som', 1),
+('2026-06-05', 'Som', 1, 0, 1, 'Alta', 1, 2, 'Som', 0),
+('2026-06-05', 'Projecao', 11, 1, 1, 'Alta', 0, 0, 'Projecao', 1),
+('2026-06-05', 'Projecao', 5, 0, 1, 'Media', 1, 4, 'Projecao', 0),
+('2026-06-05', 'Fotografia', 2, 1, 1, 'Maxima', 0, 0, 'Fotografia', 1),
+('2026-06-05', 'Fotografia', 9, 0, 1, 'Media', 1, 3, 'Fotografia', 0),
+('2026-06-12', 'Som', 1, 1, 1, 'Alta', 0, 0, 'Som', 1),
+('2026-06-12', 'Som', 4, 0, 1, 'Media', 1, 1, 'Som', 0),
+('2026-06-12', 'Projecao', 3, 1, 1, 'Alta', 0, 0, 'Projecao', 1),
+('2026-06-12', 'Projecao', 8, 0, 1, 'Baixa', 1, 5, 'Projecao', 0),
+('2026-06-12', 'Fotografia', 6, 1, 1, 'Alta', 0, 0, 'Fotografia', 1),
+('2026-06-12', 'Fotografia', 12, 0, 1, 'Baixa', 1, 4, 'Fotografia', 0);
