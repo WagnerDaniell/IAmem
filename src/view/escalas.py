@@ -20,19 +20,6 @@ def mostrar_escalas(parent_frame):
     )
     btn_gerar.pack(side="left", padx=5)
 
-    def retreinar_e_avisar():
-        retreinar_modelo()
-        messagebox.showinfo("Sucesso", "Modelo atualizado com novos dados.")
-
-    btn_retrain = ctk.CTkButton(
-        btn_frame,
-        text="Re-treinar IA",
-        fg_color="#2E86C1",
-        hover_color="#2874A6",
-        command=retreinar_e_avisar
-    )
-    btn_retrain.pack(side="left", padx=5)
-
     resultado_frame = ctk.CTkFrame(parent_frame, fg_color="transparent")
     resultado_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
