@@ -38,7 +38,7 @@ def _train_model():
         raise ValueError("Os dados reais ainda nao possuem variacao suficiente para treinar o modelo.")
 
     modelo = DecisionTreeClassifier(criterion="gini", max_depth=5, random_state=42)
-    modelo.fit(X, y)
+    modelo.fit(X, y)#relacao entre x e y, treina o modelo
     feature_names = X.columns.tolist()
 
 
@@ -63,12 +63,12 @@ def _preparar_features(integrante, dia):
     }
     features = pd.DataFrame([data])
     features = pd.get_dummies(features, columns=["prioridade", "area", "dia_semana", "integrante_id"])
-    return features.reindex(columns=feature_names, fill_value=0)
+    return features.reindex(columns=feature_names, fill_value=0) #realinha as colunas na ordem do treino
 
 
 def _probabilidade_de_escala(integrante, dia):
     features = _preparar_features(integrante, dia)
-    classes = getattr(modelo, "classes_", [])
+    classes = getattr(modelo, "classes_", []) #O modelo tem duas classes escalado e não escalado
 
     if len(classes) == 1:
         return 1.0 if classes[0] == 1 else 0.0
@@ -86,7 +86,7 @@ def selecionar_por_area_ml(integrantes, area_alvo, dia):
     _ensure_model()
     idx = INDICE_DISP[dia]
 
-    candidatos = [
+    candidatos = [ #filtra os candidatos por area
         i for i in integrantes
         if i[2] == area_alvo and i[idx] == 1
     ]
@@ -98,7 +98,7 @@ def selecionar_por_area_ml(integrantes, area_alvo, dia):
         prob = _probabilidade_de_escala(integ, dia)
         classificados.append((integ, prob))
 
-    classificados.sort(key=lambda x: (-x[1], x[0][0]))
+    classificados.sort(key=lambda x: (-x[1], x[0][0])) #ordena e escolhe o maior(melhor)
     escolhido = classificados[0][0]
     return escolhido, candidatos
 
