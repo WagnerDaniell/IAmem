@@ -22,6 +22,8 @@ O sistema nao se comporta como uma simples ordenacao por prioridade. Em vez diss
 - identificador do integrante;
 - feedback humano registrado apos a geracao.
 
+O treino supervisionado usa apenas registros de `feedback_escala` com avaliacao preenchida.
+
 Esse fluxo transforma o sistema em uma solucao orientada principalmente por ML, com validacoes minimas antes da previsao.
 
 ---
@@ -185,7 +187,8 @@ Depois da geracao, o usuario pode avaliar a escala com:
 Quando isso acontece:
 
 - o campo `avaliacao` recebe um valor;
-- esse valor passa a ser o rotulo de aprendizado do modelo.
+- esse valor passa a ser o rotulo de aprendizado do modelo;
+- o feedback nao bloqueia o integrante de forma direta, mas altera o treino do modelo.
 
 ### 7.3 Quando o modelo aprende de fato
 
@@ -256,10 +259,9 @@ A arvore de decisao foi escolhida porque:
 
 O treino usa:
 
-- dados reais ja avaliados;
-- um dataset minimo de fallback quando ainda existem poucos dados.
+- dados reais ja avaliados.
 
-Isso evita falhas na primeira execucao e garante que o modelo tenha condicoes de operar mesmo em fase inicial.
+Se nao houver registros com `avaliacao` ou se os dados ainda nao tiverem variacao suficiente, o modelo nao treina.
 
 ---
 
@@ -342,7 +344,7 @@ Armazena o historico usado para aprendizado supervisionado.
 | `area_atuacao` | Area original do integrante |
 | `avaliacao` | Rotulo supervisionado definido pelo usuario |
 
-Esses dois campos extras, `dia_semana` e `integrante_id`, sao importantes porque permitem que o feedback tenha efeito mais especifico sobre a combinacao pessoa + contexto.
+Os campos `data_escala` e `integrante_id` sao importantes porque permitem associar o feedback a uma pessoa e a um contexto especifico de decisao.
 
 ---
 
@@ -361,7 +363,7 @@ Esses dados existem para:
 - facilitar testes iniciais;
 - permitir visualizar a escala logo no primeiro uso;
 - evitar uma aplicacao vazia durante demonstracoes;
-- fornecer exemplos supervisionados iniciais para o modelo.
+- fornecer integrantes base para a primeira execucao.
 
 ### Regra de carregamento
 
@@ -391,6 +393,8 @@ O uso acontece somente quando:
 - o registro possui `avaliacao`;
 - o sistema faz o re-treino a partir do feedback registrado.
 
+O efeito nao e um bloqueio direto. O feedback altera o conjunto de treino e, por consequencia, a probabilidade de escolha nas proximas geracoes.
+
 ### 12.3 Consequencia pratica
 
 O sistema melhora com o tempo, mas apenas se houver:
@@ -409,7 +413,7 @@ Mesmo sendo funcional, o sistema possui limitacoes naturais:
 - depende do feedback humano;
 - com pouco historico, o aprendizado e limitado;
 - a arvore de decisao depende da qualidade do treino;
-- com poucos dados reais, o sistema ainda usa fallback sintetico.
+- sem feedback avaliado suficiente, o modelo nao consegue treinar.
 
 ---
 
