@@ -7,53 +7,27 @@ from src.context.database import (
     registrar_feedback, obter_dados_treino
 )
 
-ORDEM_DIAS = ["Domingo", "Quarta", "Sexta"]
-INDICE_DISP = {"Quarta": 4, "Sexta": 5, "Domingo": 6}
-DIAS_SEMANA = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"]
+DIAS_ESCALA = {
+    "Domingo": {"weekday": 6, "indice_disp": 6},
+    "Quarta": {"weekday": 2, "indice_disp": 4},
+    "Sexta": {"weekday": 4, "indice_disp": 5},
+}
+ORDEM_DIAS = list(DIAS_ESCALA)
+INDICE_DISP = {dia: dados["indice_disp"] for dia, dados in DIAS_ESCALA.items()}
 
 modelo = None
 feature_names = None
-
-
-def _dataset_minimo():
-    """Dataset de fallback para a primeira execucao."""
-    dados = []
-    prioridades = {"Baixa": 0, "Media": 1, "Alta": 2, "Maxima": 3}
-    for integrante_id in range(1, 13):
-        for dia_semana in DIAS_SEMANA:
-            for area in ["Som", "Projecao", "Fotografia"]:
-                for disp in [0, 1]:
-                    for prio in ["Baixa", "Media", "Alta", "Maxima"]:
-                        for part_rec in [0, 1]:
-                            for seguidas in [0, 1]:
-                                score_base = prioridades[prio] + (1 if area != "Som" else 0)
-                                penalidade = (part_rec * 2) + seguidas + (1 if dia_semana == "Domingo" else 0)
-                                dados.append({
-                                    "integrante_id": integrante_id,
-                                    "dia_semana": dia_semana,
-                                    "disponivel_dia": disp,
-                                    "prioridade": prio,
-                                    "participacao_recente": part_rec,
-                                    "escalas_seguidas": seguidas,
-                                    "area": area,
-                                    "target": 1 if disp and score_base >= penalidade else 0
-                                })
-    return pd.DataFrame(dados)
 
 
 def _train_model():
     global modelo, feature_names
     dados_reais = obter_dados_treino()
 
-    if len(dados_reais) >= 5:
-        df = pd.DataFrame(dados_reais)
-        print(f"Treinando APENAS com {len(df)} exemplos reais.")
-    else:
-        df = _dataset_minimo()
-        if dados_reais:
-            df_real = pd.DataFrame(dados_reais)
-            df = pd.concat([df, df_real], ignore_index=True)
-            print(f"⚠️ Poucos dados reais ({len(dados_reais)}). Usando dataset sintético mínimo + real.")
+    if not dados_reais:
+        raise ValueError("Nao ha dados reais suficientes para treinar o modelo.")
+
+    df = pd.DataFrame(dados_reais)
+    print(f"Treinando APENAS com {len(df)} exemplos reais.")
 
     df_encoded = pd.get_dummies(df, columns=["prioridade", "area", "dia_semana", "integrante_id"])
 
@@ -61,13 +35,7 @@ def _train_model():
     y = df_encoded["target"]
 
     if y.nunique() < 2:
-        complemento = _dataset_minimo()
-        complemento = complemento[complemento["target"] != y.iloc[0]]
-        if not complemento.empty:
-            df = pd.concat([df, complemento], ignore_index=True)
-            df_encoded = pd.get_dummies(df, columns=["prioridade", "area", "dia_semana", "integrante_id"])
-            X = df_encoded.drop("target", axis=1)
-            y = df_encoded["target"]
+        raise ValueError("Os dados reais ainda nao possuem variacao suficiente para treinar o modelo.")
 
     modelo = DecisionTreeClassifier(criterion="gini", max_depth=5, random_state=42)
     modelo.fit(X, y)
@@ -137,9 +105,9 @@ def selecionar_por_area_ml(integrantes, area_alvo, dia):
 
 def _proximas_datas():
     hoje = date.today()
-    alvos = {"Quarta": 2, "Sexta": 4, "Domingo": 6}
     datas = {}
-    for nome, weekday in alvos.items():
+    for nome, dados in DIAS_ESCALA.items():
+        weekday = dados["weekday"]
         dias = (weekday - hoje.weekday()) % 7
         if dias == 0:
             dias = 7
