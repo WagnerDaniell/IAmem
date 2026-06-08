@@ -487,3 +487,10 @@ O resultado e um sistema que:
 - aprende com avaliacoes;
 - respeita criterios operacionais minimos;
 - mantem a logica clara para manutencao e apresentacao.
+
+## Equipe
+- Wagner Daniel 01709352
+- Sidney Cirino 01153674
+- Fabricio Batista 01706468
+- Pedro Valença 01705254
+- Joalison Joaquim 01704791

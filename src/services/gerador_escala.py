@@ -73,7 +73,7 @@ def _probabilidade_de_escala(integrante, dia):
     if len(classes) == 1:
         return 1.0 if classes[0] == 1 else 0.0
 
-    probs = modelo.predict_proba(features)[0]
+    probs = modelo.predict_proba(features)[0] ##Calcula a probabilidade
     classes_lista = list(classes)
     if 1 in classes_lista:
         idx_classe_1 = classes_lista.index(1)
